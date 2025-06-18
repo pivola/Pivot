@@ -1,14 +1,25 @@
 CC = gcc
-SRC = src/main.c src/utils.c
-BUILD = /build
+SRC = src/
+BUILD = build/
 CFLAGS = -Wall -std=c99 $(shell pkg-config --cflags raylib)
 LIBS = $(shell pkg-config --libs raylib) -lm
+HEAD = headers/
+OBJECTS = ${BUILD}main.o ${BUILD}utils.o
 
-main: ${SRC}
-		${CC} -o main ${SRC} ${CFLAGS} $(LIBS)
+all: main
 
+main: ${OBJECTS}
+		${CC} -o $@ ${OBJECTS} ${LIBS}
+
+${BUILD}main.o: ${SRC}main.c ${HEAD}utils.h ${HEAD}button.h
+	@mkdir -p ${BUILD}
+	${CC} ${CFLAGS} -c $< -o $@
+
+${BUILD}utils.o: ${SRC}utils.c ${HEAD}utils.h
+	@mkdir -p ${BUILD}
+	${CC} ${CFLAGS} -c $< -o $@
 
 clean:
 		rm main
-		rm utils
+		rm -rf ${BUILD}
 	

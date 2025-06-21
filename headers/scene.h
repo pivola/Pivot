@@ -21,6 +21,8 @@ typedef struct {
     int screenHeight;
     int buttonWidth;
     int buttonHeight;
+    float duration;
+    float elapsedTime;
 } GameData;
 
 /**

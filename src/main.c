@@ -10,19 +10,21 @@ int main() {
     InitWindow(GetScreenWidth(), GetScreenHeight(), "Rhythm Game - Main Menu");
     SetTargetFPS(120);
     InitAudioDevice();
-
+    
 
 
 
     GameData game = {
+        .screenWidth = GetScreenWidth(),
+        .screenHeight = GetScreenHeight(),
         .rotation = 0.0f,
         .BPM = 360.0f,
         .selectMapIndex = 0,
         .currentState = STATE_MENU,
+        .elapsedTime = 0.0f
     };
 
-    game.screenWidth = GetScreenWidth();
-    game.screenHeight = GetScreenHeight();
+
     game.buttonHeight = 50;
     game.buttonWidth = 200;
 

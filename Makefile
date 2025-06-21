@@ -1,7 +1,7 @@
 CC = gcc
 SRC = src/
 BUILD = build/
-CFLAGS = -Wall -std=c99 $(shell pkg-config --cflags raylib)
+CFLAGS = -Wall -Wextra -std=c99 -pedantic $(shell pkg-config --cflags raylib)
 LIBS = $(shell pkg-config --libs raylib) -lm
 HEAD = headers/
 OBJECTS = ${BUILD}main.o ${BUILD}utils.o ${BUILD}map.o ${BUILD}scene.o

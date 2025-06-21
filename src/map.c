@@ -4,7 +4,7 @@
 
 
 MapEntry maps[] = {
-    { "Map 1", "assets/music1.mp3"},
+    {"Map 1", "assets/music1.mp3"},
     {"Map 2", "assets/music2.mp3"}
 };
 

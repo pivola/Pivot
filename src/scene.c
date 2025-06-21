@@ -60,6 +60,8 @@ void DrawMapSelectScene(GameData *game) {
 void DrawGameScene(GameData *game) {
     SetMusicVolume(currentMusic, 1.0f);
     UpdateMusicStream(currentMusic);
+    game->duration = GetMusicTimeLength(currentMusic);
+    game->elapsedTime += GetFrameTime();
     Vector2 center = {game->screenWidth / 2.0f, game->screenHeight / 2.0f};
     float arrowLength = game->screenHeight/2.0f;
 
@@ -76,8 +78,10 @@ void DrawGameScene(GameData *game) {
     DrawLineEx(center, tip, 4.0f, DARKGRAY);
     DrawSmoothCircleLines(center,game->screenHeight/2.0f ,RED, 500);
 
-    if (!IsMusicStreamPlaying(currentMusic)) {
+    if (!IsMusicStreamPlaying(currentMusic) || game->elapsedTime >= game->duration) {
         StopMusicStream(currentMusic); // optional
+        UnloadMusicStream(currentMusic);
+        game->currentState = STATE_MAP_SELECT;
         game->currentState = STATE_MAP_SELECT;
     }
 

@@ -1,6 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 #include <raylib.h>
+#include"map_data.h"
 
 typedef struct {
     const char *name;
@@ -10,7 +11,9 @@ typedef struct {
 extern MapEntry maps[];
 extern const int mapCount;
 extern Music currentMusic;
+extern bool isMusicLoaded;
 
-void InitMap(int index);  // Declaration for the init function
+
+void InitMap(MapData *map);  // Declaration for the init function
 
 #endif

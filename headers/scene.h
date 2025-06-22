@@ -2,52 +2,54 @@
 #define SCENE_H
 
 #include<raylib.h>
+#include"map_data.h"
 
 typedef enum {
     STATE_MENU,
     STATE_MAP_SELECT,
-    STATE_GAME
+    STATE_GAME,
+    STATE_MAP_END
 } GameState;
 
 
 typedef struct {
-    Rectangle playButton;
-    Rectangle quitButton;
-    float rotation;
-    float BPM;
+    Rectangle playButton, quitButton;
     int selectMapIndex;
     GameState currentState;
-    int screenWidth;
-    int screenHeight;
-    int buttonWidth;
-    int buttonHeight;
-    float duration;
-    float elapsedTime;
+    int screenWidth, screenHeight;
+    int buttonWidth, buttonHeight;
+    float rotation;
+
+    MapData currentMap;
+
 } GameData;
 
+
 /**
- @param playButton button redirects to MapSelectScene
- @param quitButton button redirects to exit
- @param int screenWidth
- @param int screenHeight
+ @param GameData struct
+@param bool shouldExit (error handling)
 
  @return renders the main menu
  */
-void DrawMenuScene(GameData *game);
+void DrawMenuScene(GameData *game, bool *shouldExit);
 
 /**
- @param int selectMapIndex index of the map chosen
+ @param GameData struct
  
  @return renders the map selection scenen
 */
 void DrawMapSelectScene(GameData *game);
 
 /**
- @param rotation calculates at which speed the arrow rotates
- @param BPM the BPM of the map, will influence rotation
+ @param GameData struct
 
  @return renders the game scene
 */
 void DrawGameScene(GameData *game);
 
+
+/**
+ 
+*/
+void DrawMapEndScene(GameData *game);
 #endif

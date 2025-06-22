@@ -10,6 +10,7 @@ int main() {
     InitWindow(GetScreenWidth(), GetScreenHeight(), "Rhythm Game - Main Menu");
     SetTargetFPS(120);
     InitAudioDevice();
+    bool shouldExit = false;
     
 
 
@@ -17,11 +18,8 @@ int main() {
     GameData game = {
         .screenWidth = GetScreenWidth(),
         .screenHeight = GetScreenHeight(),
-        .rotation = 0.0f,
-        .BPM = 360.0f,
         .selectMapIndex = 0,
         .currentState = STATE_MENU,
-        .elapsedTime = 0.0f
     };
 
 
@@ -43,18 +41,21 @@ int main() {
     };
 
 
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose() && !shouldExit) {
         BeginDrawing();
 
         switch(game.currentState) {
             case STATE_MENU:
-                DrawMenuScene(&game);
+                DrawMenuScene(&game, &shouldExit);
                 break;
             case STATE_MAP_SELECT:
                 DrawMapSelectScene(&game);
                 break;
             case STATE_GAME:
                 DrawGameScene(&game);
+                break;
+            case STATE_MAP_END:
+                DrawMapEndScene(&game);
                 break;
         }
 

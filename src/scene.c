@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include"../headers/utils.h"
 #include"../headers/map.h"
 #include"../headers/scene.h"
@@ -92,16 +93,26 @@ void DrawGameScene(GameData *game) {
     ClearBackground(LIGHTGRAY);
     DrawLineEx(center, tip, 4.0f, DARKGRAY);
     DrawSmoothCircleLines(center,game->screenHeight/2.0f ,RED, 500);
+    
 
     for(int i =0; i < map->totalCircles; i++){
         Circle *c = &map->circle[i];
-        if(map->elapsedTime >= c->spawnTime && !c->isHit){
+
+        if (!c->active && map->elapsedTime >= c->spawnTime){
+            c->active = true;
+        }
+        
+        if((map->elapsedTime - c->spawnTime) >= c->lifeTime){
+            c->active = false;
+        }
+        if(c->active && !c->isHit){
             DrawCircleV(c->position, 40,RED);
             if (IsKeyPressed(KEY_SPACE)){
                 float dx = GetMouseX() - c->position.x;
                 float dy = GetMouseY() - c->position.y;
                 if(sqrtf(dx*dx + dy*dy)< 40.0f){
                     c->isHit = true;
+                    c->active = false;
                     map->circlesHit++;
                 }
             }
@@ -134,4 +145,6 @@ void DrawMapEndScene(GameData *game){
     if(IsKeyPressed(KEY_ENTER)){
         game->currentState = STATE_MAP_SELECT;
     }
+
+    //free(map->circle);
 }

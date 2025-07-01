@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <stddef.h>
+#include <stdlib.h>
 #include "../headers/map.h"
 #include"../headers/map_data.h"
 
@@ -14,11 +15,17 @@ const int mapCount = sizeof(maps)/sizeof(maps[0]);
 void InitMap(MapData *map) {
     map->BPM = 120.0f;
     map->totalCircles = 3;
-    map->circle[0] = (Circle){ .position = {300, 300}, .spawnTime = 1.0f };
-    map->circle[1] = (Circle){ .position = {500, 200}, .spawnTime = 3.0f };
-    map->circle[2] = (Circle){ .position = {700, 400}, .spawnTime = 5.0f };
-    map->circlesHit = 0;
-    map->elapsedTime = 0.0f;
+    map->circle = malloc(sizeof(Circle) * map->totalCircles);
+
+    for (int i = 0; i < map->totalCircles; i++){
+        map->circle[i].position = (Vector2){200 + i*100, 300};
+        map->circle[i].radius = 30;
+        map->circle[i].spawnTime = i* 2.0f;
+        map->circle[i].active = false;
+        map->circle[i].isHit = false;
+        map->circle[i].lifeTime = 2.0f;
+    }
+    map -> circlesHit = 0;
 
     map->music = LoadMusicStream("assets/music1.mp3");
     map->isLoaded = true;
